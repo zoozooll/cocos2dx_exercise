@@ -147,6 +147,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\PhysiceScene.cpp" />
     <ClCompile Include="..\Classes\PhysicsDemo.cpp" />
     <ClCompile Include="..\Classes\SecondHand.cpp" />
+    <ClCompile Include="..\Classes\SouthExercise.cpp" />
     <ClCompile Include="..\Classes\SpriteExercise.cpp" />
     <ClCompile Include="..\Classes\WidgetButtonLayer.cpp" />
     <ClCompile Include="..\Classes\WidgetCheckboxLayer.cpp" />
@@ -172,6 +173,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\PhysiceScene.h" />
     <ClInclude Include="..\Classes\PhysicsDemo.h" />
     <ClInclude Include="..\Classes\SecondHand.h" />
+    <ClInclude Include="..\Classes\SouthExercise.h" />
     <ClInclude Include="..\Classes\SpriteExercise.h" />
     <ClInclude Include="..\Classes\WidgetButtonLayer.h" />
     <ClInclude Include="..\Classes\WidgetCheckboxLayer.h" />

@@ -17,9 +17,15 @@ static const char* const WIDGETS_EXAMPLES = "Widgets Examples";
 static const char* const PHYSICS_EXAMPLES = "Physics Examples";
 static const char* const CLOCK_EXAMPLES = "Clock Examples";
 
-static Scene* createScene2();
+static Scene* createScene2(const int index);
 
-static Map <string, function<Scene*()>> createFunctions;
+static function<Scene*()> createFunctions[] = {
+	[](){ return SpriteExercise::createScene(); },
+	[](){ return ActionExercise::createScene(); },
+	[](){ return WidgetsScene::createScene(); },
+	[](){ return PhysicsScene::createScene(); },
+	[](){ return ClockBackgroundScene::createScene(); }
+};
 	
 
 
@@ -34,11 +40,11 @@ Scene* HelloWorld::createScene()
     // add layer as a child to scene
     scene->addChild(layer);
 
-	createFunctions.insert(SPRITE_EXAMPLES, [](){ return SpriteExercise::create(); });
+	/*createFunctions.insert(SPRITE_EXAMPLES, [](){ return SpriteExercise::create(); });
 	createFunctions.insert(ACTION_EXAMPLES, [](){ return ActionExercise::create(); });
 	createFunctions.insert(WIDGETS_EXAMPLES, [](){ return WidgetsScene::create(); });
 	createFunctions.insert(PHYSICS_EXAMPLES, [](){ return PhysicsScene::create(); });
-	createFunctions.insert(CLOCK_EXAMPLES, [](){ return ClockBackgroundScene::create(); });
+	createFunctions.insert(CLOCK_EXAMPLES, [](){ return ClockBackgroundScene::create(); });*/
     // return the scene
     return scene;
 }
@@ -83,6 +89,7 @@ bool HelloWorld::init()
 
 	ccMenuCallback callBack = CC_CALLBACK_1(HelloWorld::menuClickedCallback, this);
 	menuItem->setName(SPRITE_EXAMPLES);
+	menuItem->setTag(1001);
 	menuItem->setCallback(callBack);
 	menuItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2).x,
 		(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height).y - (++index) * 40));
@@ -92,7 +99,7 @@ bool HelloWorld::init()
 	// Action MENU
 	itemlabel = LabelTTF::create(ACTION_EXAMPLES, "Marker Felt.ttf", 32);
 	menuItem = MenuItemLabel::create(itemlabel);
-
+	menuItem->setTag(1002);
 	callBack = CC_CALLBACK_1(HelloWorld::menuClickedCallback, this);
 	menuItem->setName(ACTION_EXAMPLES);
 	menuItem->setCallback(callBack);
@@ -104,7 +111,7 @@ bool HelloWorld::init()
 	// WIDGETS MENU
 	itemlabel = LabelTTF::create(WIDGETS_EXAMPLES, "Marker Felt.ttf", 32);
 	menuItem = MenuItemLabel::create(itemlabel);
-
+	menuItem->setTag(1003);
 	callBack = CC_CALLBACK_1(HelloWorld::menuClickedCallback, this);
 	menuItem->setName(WIDGETS_EXAMPLES);
 	menuItem->setCallback(callBack);
@@ -116,7 +123,7 @@ bool HelloWorld::init()
 	// Physics system MENU
 	itemlabel = LabelTTF::create(PHYSICS_EXAMPLES, "Marker Felt.ttf", 32);
 	menuItem = MenuItemLabel::create(itemlabel);
-
+	menuItem->setTag(1004);
 	callBack = CC_CALLBACK_1(HelloWorld::menuClickedCallback, this);
 	menuItem->setName(PHYSICS_EXAMPLES);
 	menuItem->setCallback(callBack);
@@ -129,7 +136,7 @@ bool HelloWorld::init()
 	// Clock exercise MENU
 	itemlabel = LabelTTF::create(CLOCK_EXAMPLES, "Marker Felt.ttf", 32);
 	menuItem = MenuItemLabel::create(itemlabel);
-
+	menuItem->setTag(1005);
 	callBack = CC_CALLBACK_1(HelloWorld::menuClickedCallback, this);
 	menuItem->setName(CLOCK_EXAMPLES);
 	menuItem->setCallback(callBack);
@@ -162,14 +169,14 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::menuClickedCallback(Ref* pSender)
 {
 
-	//std::string name = ((Node*)pSender)->getName();
-	//Director::getInstance()->replaceScene(createScene2(name));
+	int tag = ((Node*)pSender)->getTag();
+	Director::getInstance()->replaceScene(createScene2(tag - 1001));
     
 };
 
-static Scene* createScene2(std::string name)
+static Scene* createScene2(const int index)
 {
-	auto getter = createFunctions.find(name);
+	function<Scene*()> getter = createFunctions[index];
 	Scene* scene = getter();
 	return scene;
 }
